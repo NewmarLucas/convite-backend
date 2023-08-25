@@ -9,6 +9,10 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Cellphone is required'],
   },
+  confirmation: {
+    type: Boolean,
+    required: true,
+  },
   companions: {
     type: Array,
     required: false,
