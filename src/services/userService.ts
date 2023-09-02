@@ -39,47 +39,59 @@ async function createUser(payload: any) {
 
 async function getUsers() {
   const users = await User.find();
-  return users.map((user) => ({
-    id: user._id,
-    cellphone: user.cellphone,
-    confirmation: user.confirmation,
-    companions: user.companions,
-  }));
+  return (
+    users?.map((user) => ({
+      id: user._id,
+      name: user.name,
+      cellphone: user.cellphone,
+      confirmation: user.confirmation,
+      companions: user.companions,
+    })) ?? []
+  );
 }
 
 async function getUser(id: string) {
-  const userData = await User.findById(id);
-  if (!userData) return null;
+  try {
+    const userData = await User.findById(id);
+    if (!userData) return null;
 
-  return {
-    id: userData._id,
-    cellphone: userData.cellphone,
-    confirmation: userData.confirmation,
-    companions: userData.companions,
-  };
+    return {
+      id: userData._id,
+      name: userData.name,
+      cellphone: userData.cellphone,
+      confirmation: userData.confirmation,
+      companions: userData.companions,
+    };
+  } catch (error) {
+    return null;
+  }
 }
 
 async function handleConfirmate(id: string, data: any) {
-  const user = await User.findById(id);
-  if (!user) return 'user not found';
+  try {
+    const user = await User.findById(id);
+    if (!user) return 'user not found';
 
-  const isValid = hasAllFields(data);
-  if (!isValid) return 'invalid payload';
+    const isValid = hasAllFields(data);
+    if (!isValid) return 'invalid payload';
 
-  const payload: IUser = {
-    name: user?.name ?? data.name,
-    cellphone: user?.cellphone ?? data.cellphone,
-    confirmation: data.confirmation ?? false,
-    companions: data?.companions.map(
-      (item: { name: string; confirmation: boolean }) => ({
-        ...item,
-        confirmation: item.confirmation ?? false,
-      })
-    ),
-  };
-  await User.findByIdAndUpdate(id, payload);
+    const payload: IUser = {
+      name: user?.name ?? data.name,
+      cellphone: user?.cellphone ?? data.cellphone,
+      confirmation: data.confirmation ?? false,
+      companions: data?.companions.map(
+        (item: { name: string; confirmation: boolean }) => ({
+          ...item,
+          confirmation: item.confirmation ?? false,
+        })
+      ),
+    };
+    await User.findByIdAndUpdate(id, payload);
 
-  return await User.findById(id);
+    return await User.findById(id);
+  } catch (error) {
+    return 'user not found';
+  }
 }
 
 async function getConfirmationData() {
@@ -107,7 +119,7 @@ async function getConfirmationData() {
     }
   });
 
-  return {};
+  return { confirmated, notConfirmated };
 }
 
 export { createUser, getUsers, getUser, handleConfirmate, getConfirmationData };
