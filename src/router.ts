@@ -1,5 +1,7 @@
 import { Router } from 'express';
+import { authenticateJWT } from './middlewares/auth';
 import { homeController } from './controllers/HomeController';
+import { adminController } from './controllers/AdminController';
 import { usersController } from './controllers/UsersController';
 import { fileController } from './controllers/FileController';
 
@@ -14,10 +16,14 @@ router.get('/users/:id', usersController.getUser);
 router.post('/users', usersController.createUsers);
 
 // confirmations
-router.get('/confirmations', usersController.getConfirmations);
 router.put('/confirmate/:id', usersController.handleConfirmate);
 
 // file
 router.get('/file-data', fileController.getData);
+
+// admin
+router.post('/login', adminController.login);
+router.post('/admin', adminController.createAdmin);
+router.get('/confirmations', authenticateJWT, usersController.getConfirmations);
 
 export { router };
