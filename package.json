@@ -2,12 +2,15 @@
   "name": "convite-backend",
   "version": "1.0.0",
   "main": "index.js",
+  "engines": {
+    "node": "18"
+  },
   "repository": "https://github.com/NewmarLucas/convite-backend.git",
   "author": "NewmarLucas <newmarlucas@gmail.com>",
   "license": "MIT",
   "scripts": {
     "dev": "npx nodemon src/server.ts",
-    "compile": "npx tsc",
+    "build": "npx tsc",
     "start": "node ./dist/server.js"
   },
   "dependencies": {
