@@ -14,6 +14,7 @@ router.get('/', homeController.home);
 router.get('/users', usersController.getUsers);
 router.get('/users/:id', usersController.getUser);
 router.post('/users', usersController.createUsers);
+router.get('/url', usersController.getLink);
 
 // confirmations
 router.put('/confirmate/:id', usersController.handleConfirmate);

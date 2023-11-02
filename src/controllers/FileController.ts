@@ -11,12 +11,17 @@ class FileController {
     const worksheet = workbook.Sheets[sheetName];
 
     const data = XLSX.utils.sheet_to_json(worksheet);
-    const parsedData = data.map((item: any) => ({
-      ...item,
-      companions: item?.companions
-        ?.split(',')
-        ?.map((item: any) => ({ name: item?.trim() })),
-    }));
+    const parsedData = data.map((item: any) => {
+      const confirmation = item?.confirmation == 'true';
+      return {
+        ...item,
+        confirmation: confirmation,
+        companions: item?.companions?.split(',')?.map((item: any) => ({
+          name: item?.trim(),
+          confirmation: confirmation,
+        })),
+      };
+    });
     return res.json(parsedData);
   }
 }

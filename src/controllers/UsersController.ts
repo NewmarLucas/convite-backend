@@ -71,6 +71,16 @@ class UsersController {
       data,
     });
   }
+  public async getLink(_: Request, res: Response) {
+    const users = await userService.getUsers();
+    return res.json({
+      success: true,
+      data: users?.map((user) => ({
+        name: user?.name,
+        url: `http://localhost:3001?id=${user?.id}`,
+      })),
+    });
+  }
 }
 
 export const usersController = new UsersController();
