@@ -8,23 +8,22 @@ import { fileController } from './controllers/FileController';
 const router: Router = Router();
 
 // Routes
+// public
 router.get('/', homeController.home);
-
-// users
-router.get('/users', usersController.getUsers);
 router.get('/users/:id', usersController.getUser);
-router.post('/users', usersController.createUsers);
-router.get('/url', usersController.getLink);
-
-// confirmations
 router.put('/confirmate/:id', usersController.handleConfirmate);
-
-// file
-router.get('/file-data', fileController.getData);
 
 // admin
 router.post('/login', adminController.login);
 router.post('/admin', adminController.createAdmin);
 router.get('/confirmations', authenticateJWT, usersController.getConfirmations);
+
+// users
+router.get('/users', authenticateJWT, usersController.getUsers);
+router.post('/users', authenticateJWT, usersController.createUsers);
+router.get('/url', authenticateJWT, usersController.getLink);
+
+// file
+router.get('/file-data', authenticateJWT, fileController.getData);
 
 export { router };
