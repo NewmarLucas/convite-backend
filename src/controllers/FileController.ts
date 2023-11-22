@@ -15,6 +15,7 @@ class FileController {
       const confirmation = item?.confirmation == 'true';
       return {
         ...item,
+        cellphone: item?.cellphone ?? null,
         confirmation: confirmation,
         companions: item?.companions?.split(',')?.map((item: any) => ({
           name: item?.trim(),

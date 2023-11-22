@@ -15,7 +15,7 @@ router.put('/confirmate/:id', usersController.handleConfirmate);
 
 // admin
 router.post('/login', adminController.login);
-router.post('/admin', adminController.createAdmin);
+// router.post('/admin', adminController.createAdmin);
 router.get('/confirmations', authenticateJWT, usersController.getConfirmations);
 
 // users
